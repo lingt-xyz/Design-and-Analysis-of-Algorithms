@@ -184,6 +184,14 @@ Assume $T(k)=\Omega(k\log k), \text{ for } k<n$, so we need to prove
 
 So we can conclude it's not linear.
 
+\subsection{The group size is at least 4}
+\begin{align*}
+ \Big\lceil{\frac{k}{2}}\Big\rceil(\bigg\lceil{\frac{1}{2}\Big\lceil{\frac{n}{k}}\Big\rceil}\bigg\rceil-2)\geq \frac{n}{4}-k&\\
+ n-(\frac{n}{k}-k)=\frac{3n}{4}+k&\\
+ T(n)\leq T(\lceil{\frac{n}{k}}\rceil)+T(3n+k)+O(n)\\
+ TODO
+\end{align*}
+
 \section{Problem 8: 9.3-8} 
 1. Prove the median of $2n$ is between the median of $A$ and the median of $B$.\\
 Assume the median of $2n$ is $A_k$ at the $k^{th}$ of $A$.\\

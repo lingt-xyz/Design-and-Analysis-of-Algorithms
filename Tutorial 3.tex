@@ -1,0 +1,92 @@
+\documentclass[a4paper]{article}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{tikz-qtree}
+
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\begin{document}
+
+\begin{enumerate}
+    \item Given coins of different denominations, in this case, 1,5,6,8 and a total of 11. How many minimum coins would you need to make the total of 11 from given coins. Assuming there is infinite supply of coins.\\
+    Greedy is not optimal: $11=8+1+1+1$\\
+    What is the optimal number of coins?\\
+    $
+    \begin{array}{c|123456789012}
+    coin(i)/sum(j) & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+    \hline
+    1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+    5 & 0 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 5 & 2 & 3\\
+    6 & 0 & 1 & 2 & 3 & 4 & 1 & 1 & 2 & 3 & 4 & 2 & 2\\
+    8 & 0 & 1 & 2 & 3 & 4 & 1 & 1 & 2 & 1 & 2 & 2 & 2
+    \end{array}
+    $\\
+    $
+    T[i][j]=
+        \begin{cases}
+        min(T[i-1][j], 1+ T[i][j-coin[i]]),  & \text{if $j \geq coin[i]$} \\
+        T[i-1][j], & \text{else}
+        \end{cases}
+    $
+    \item Given coins of different denominations, in this case, 1,2,3 and a total of 5. How many ways can we combine the coins to get a total of 5. Assuming there is infinite supply of coins.\\
+    $
+    \begin{array}{c|llllll}
+    coin(i)/sum(j) & 0 & 1 & 2 & 3 & 4 & 5\\
+    \hline
+    1 & 1 & 1 & 1 & 1 & 1 & 1\\
+    2 & 1 & 1 & \circled{2} & 2 & 3 & \circled{3}\\
+    3 & 1 & 1 & 2 & 3 & 4 & \circled{5}\\
+    \end{array}\\
+    T[2][3]= 1+1\text{: 2 can be used 1 time; 3-2=1, T[2][1]=1}\\
+    T[3][5] = 3+2\text{: 3 is only use coin 1 and 2, 2 is use coin 3 additionally,} \\
+    \\
+    \text{Algorithm:}\\
+    \hspace*{1em} \text{If }(j\geq Coin[i])\\
+    \hspace*{2em} T[i][j]=T[i-1][j]+T[i][j-Coin[i]]\\
+    \hspace*{1em} \text{else}\\
+    \hspace*{2em} T[i][j]=T[i-1][j]
+    $
+    \item Given a rod of length n inches and an array of prices that contains prices of all pieces of size smaller than n. Determine the maximum value obtainable by cutting up the rod and selling the pieces. For example, if length of the rod is 8 and the values of different pieces are given as following, then the maximum obtainable value is 22 (by cutting in two pieces of lengths 2 and 6)
+    $
+    \begin{array}{c|12345678}
+    length & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+    \hline
+    price & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20
+    \end{array}
+    $
+    \item Same as 3, but use different data. Assume total 5 inches, and \\
+    $
+    \begin{array}{c|1234}
+    length & 1 & 2 & 3 & 4\\
+    \hline
+    price & 2 & 5 & 7 & 8
+    \end{array}
+    $\\
+    \\
+    $
+    \begin{array}{c|123456}
+    (price)length(i)/total(j)& 0 & 1 & 2 & 3 & 4 & 5\\
+    \hline
+    (2)1 & 0 & 2 & 4 & 6 & 8 & 10 \\
+    (5)2 & 0 & 2 & 5 & 5+2=7 & 5+5=10 & 5+7=12 \\
+    (7)3 & 0 & 2 & 5 & 7 & 10 & 7+5=12 \\
+    (8)4 & 0 & 2 & 5 & 7 & 10 & 12
+    \end{array}
+    $\\
+    $
+    T[i][j]=
+        \begin{cases}
+        max(T[i-1][j], Price[i]+ T[i][j-i]),  & \text{if $j \geq i$} \\
+        T[i-1][j], & \text{else}
+        \end{cases}
+    $
+\end{enumerate}
+
+\end{document}
