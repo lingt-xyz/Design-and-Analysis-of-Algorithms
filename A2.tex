@@ -10,7 +10,10 @@
 %https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
 \usepackage{float}% http://ctan.org/pkg/float
 
+\usepackage{amsmath,amscd}
+
 \title{COMP 465 Assignment 2}
+\date{2018-10-10}
 \author{Ling Tan}
 
 \begin{document}
@@ -25,10 +28,10 @@
     \begin{array}{c|cccccc}
      & 1 & 2 & 3 & 4 & 5 & 6\\
     \hline
-     1 & 0 & 150 & 3 & 4 & 5 & 6\\
-     2 &   & 0 & 360 & 4 & 5 & 6\\
-     3 &   &   & 0 & 180 & 5 & 6\\
-     4 &   &   &   & 0 & 3000 & 6\\
+     1 & 0 & 150 & 330 & 405 & 1165 & 2010\\
+     2 &   & 0 & 360 & 330 & 2430 & 1960\\
+     3 &   &   & 0 & 180 & 930 & 1770\\
+     4 &   &   &   & 0 & 3000 & 1860\\
      5 &   &   &   &   & 0 & 1500\\
      6 &   &   &   &   &   & 0
     \end{array}
@@ -42,10 +45,10 @@
     \begin{array}{c|cccccc}
      & 1 & 2 & 3 & 4 & 5 & 6\\
     \hline
-     1 & 0 & 1 & 3 & 4 & 5 & 6\\
-     2 &   & 0 & 2 & 4 & 5 & 6\\
-     3 &   &   & 0 & 3 & 5 & 6\\
-     4 &   &   &   & 0 & 4 & 6\\
+     1 & 0 & 1 & 2 & 2 & 2 & 2\\
+     2 &   & 0 & 2 & 2 & 2 & 2\\
+     3 &   &   & 0 & 3 & 4 & 4\\
+     4 &   &   &   & 0 & 4 & 4\\
      5 &   &   &   &   & 0 & 5\\
      6 &   &   &   &   &   & 0
     \end{array}
@@ -53,10 +56,19 @@
     \caption{$s$ table}
     \label{tab:my_label}
 \end{table}
+Therefore, an optimal parenthesization is
+$(A_1A_2)\big((A_3A_4)(A_5A_6)\big)$
 
 
 \section*{Problem 2: (15.4-2) } Show how to reconstruct an LCS from the completed $c$ table and the original sequences $X = \langle x_1, x_2,\dots, x_m\rangle$ and $Y = \langle y_1, y_2, \dots, y_n\rangle$ in $O(m +n)$ time, without using the $b$ table.
 \subsection*{Answer:}
+Compare from the right bottom of table $c$.\\
+If $X_m==Y_n$, then print this value and move to the left top direction one step; that is $i-1$ and $j-1$.\\
+Else, we find $\max\{c[i-1, j],c[i, j-1]\}$, and move to that position.\\
+Do this compare-move-compare recursively until we reach the left top corner; that is $i=0$ and $j=0$.\\
+\\
+Because for each element we only access once, the total is $O(m+n)$.
+
 
 \section*{Problem 3: (15.4-5)} Give an $O(n^2)$-time algorithm to find the longest monotonically increasing subsequence of a sequence of $n$ numbers.
 \subsection*{Answer:}
@@ -66,14 +78,47 @@ Second, apply LCS algorithm on these two list.\\
 Because this is $n\times n$ array, we have $O(n^2)$.
 
 \section*{Problem 4: (16.1-2)} Suppose that instead of always selecting the first activity to finish, we instead select the last activity to start that is compatible with all previously selected activities. Describe how this approach is a greedy algorithm, and prove that it yields an optimal solution.
+\subsection*{Answer:}
+Assume the activity with the latest start time $s_k$ is $k$.\\
+\begin{enumerate}
+    \item Greedy Choice: The activity with the latest start time is in an optimal solution.\\
+    Proof:\\
+    Consider an optimal solution is $A=\{i_1, i_2,\dots, i_p\}, i_j =1,2,\dots, n$, we can replace $i_p$ with $k$ because $\{i_1, i_2,\dots, k\}$ are compatible and the cardinality of the set is the same.
+    \item Optimal substructure property: Given an optimal solution $A\subseteq S$, then $A-\{k\}$ is an optimal solution to $S-\{i:f_i\leq s_k\},1\leq i\leq n$.\\
+    Proof:\\
+    Assume $A-\{k\}$ is not an optimal solution to the sub-problem $S-\{i:f_i\leq s_k\},1\leq i\leq n$, but B is an optimal solution to this sub-problem.
+    $\Rightarrow |B|>|A-\{k\}|=|A|-1$.\\
+    Consider a subset $A'\subseteq S$ such that $A'=B\cup \{k\}$ then $|A'|=|B|+1>|A|-1+1=|A|$.\\
+    So $A'$ is a solution to $S$ with more activities than $A$, this leads to a contradiction that $A$ is an optimal solution.
+\end{enumerate}
 
 \section*{Problem 5: (16.2-2)} Give a dynamic-programming solution to the $0-1$ knapsack problem that runs in $O(n W)$ time, where $n$ is number of items and $W$ is the maximum weight of items that the thief can put in his knapsack.
+\subsection*{Answer:}
+Let $V[n,w]$ denote the total value of $n$ items that have the total weight of $w$.\\
+Let $v_i$ denote the value of item $i$ with weight of $w_i$.\\
+So, $V[0,w_i]=0, V[1, w_i]=v_i$.
+If add $k^{th}$ item, there are two cases:\\
+\begin{enumerate}
+    \item If the total weight is greater than $W$, we cannot add $k^{th}$ item, so the max value is before add this item; that is $V[k-1,w]$.
+    \item Otherwise, we can add this item, and the max value is either $V[k-1,w] +v_k$ or $V[k-1,W-w_k]+v_k$.
+\end{enumerate}
 
 \section*{Problem 6: (16.3-1)} Prove that a binary tree that is not full cannot correspond to an optimal prefix code.
+\subsection*{Answer:}
+If tree $T$ is not full, there is a node $a$ has only one child $b$. Assume the parent of $a$ is $c$, we can just remove $a$ and let $b$ be the child of $c$. So we have a new short path for $b$, this contradicts to that the original tree correspond to an optimal prefix code.
 
-\section*{Problem 7: (23.1-5)} Let $e$ be a maximum-weight edge on some cycle of $G = (V, E)$. Prove that there is a minimum spanning tree of $G′ = (V, E -\{e\})$ that is also a minimum spanning tree of $G$. That is, there is a minimum spanning tree of G that does not include $e$.
- 
-\section*{Problem 8: (23.2-8)} Professor Toole proposes a new divide-and-conquer algorithm for computing minimum spanning trees, which goes as follows. Given a graph $G = (V, E)$, partition the set $V$ of vertices into two sets $V_1$ and $V_2$ such that $|V1|$ and $|V2|$ differ by at most $1$. Let $E_1$ be the set of edges that are incident only on vertices in $V_1$, and let $E_2$ be the set of edges that are incident only on vertices in $V_2$. Recursively solve a minimum-spanning-tree problem on each of the two subgraphs $G1 = (V1, E1)$ and $G2 = (V2, E2)$. Finally, select the minimum-weight edge in $E$ that crosses the cut $(V_1, V_2)$, and use this edge to unite the resulting two minimum spanning
-trees into a single spanning tree.
+\section*{Problem 7: (23.1-5)} Let $e$ be a maximum-weight edge on some cycle of $G = (V, E)$. Prove that there is a minimum spanning tree of $G' = (V, E -\{e\})$ that is also a minimum spanning tree of $G$. That is, there is a minimum spanning tree of G that does not include $e$.
+\subsection*{Answer:}
+Assume a minimum spanning tree of $G'$ is $T$.\\
+Because $G'$ and $G$ contains the same vertices and $G$ is circular, we can conclude tha $T$ is also a spanning tree of $G$.\\
+Assume $T$ is not a minimum spanning tree of $G$, then there must be a minimum spanning tree $T'$ that is lighter than $T$. But we know $e$ is the maximum-weight edge, there is no other edges would be lighter than $e$, so $T'$ cannot be lighter than $T$.\\
+So we can conclude that $T$ is a  minimum spanning tree of $G$.
+
+\section*{Problem 8: (23.2-8)} Professor Toole proposes a new divide-and-conquer algorithm for computing minimum spanning trees, which goes as follows. Given a graph $G = (V, E)$, partition the set $V$ of vertices into two sets $V_1$ and $V_2$ such that $|V1|$ and $|V2|$ differ by at most $1$. Let $E_1$ be the set of edges that are incident only on vertices in $V_1$, and let $E_2$ be the set of edges that are incident only on vertices in $V_2$. Recursively solve a minimum-spanning-tree problem on each of the two subgraphs $G1 = (V1, E1)$ and $G2 = (V2, E2)$. Finally, select the minimum-weight edge in $E$ that crosses the cut $(V_1, V_2)$, and use this edge to unite the resulting two minimum spanning trees into a single spanning tree. Either argue that the algorithm correctly computes a minimum spanning tree of G, or provide an example for which the algorithm fails.
+\subsection*{Answer:}
+The algorithm fails.\\
+Assume a tree $T$ that has four vertices $A,B,C,D$, and $E(AB)=10, E(BC)=1, E(CD)=10, E(DA)=1$.\\
+Cut $T$ to $T_1 = AB$ and $T_2=CD$. Since they only have one edge, $W(T_1)=10,W(T_2)=10$. This is already $20$, and we still need to connect the two trees. But we can have a minimum spanning tree $BAD$ which in total has a weight of $12$.\\
+So we can conclude the algorithm does not work.
 
 \end{document}

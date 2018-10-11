@@ -13,6 +13,9 @@
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
 %https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
 \usepackage{float}% http://ctan.org/pkg/float
 
@@ -155,22 +158,7 @@ $$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ times mu
         \item table $m[1..n, 1..n]$ for storing the $m[i,j]$ costs
         \item table $s[1..n-1,2..n]$ for recording which index of $k$ achieved the optimal cost in computing $m[i,j]$
     \end{enumerate}
-    for $\langle5, 10, 3, 12, 5, 50, 6\rangle$
-    \begin{center}
-    %\Rotatebox{-45}{%
-        $\begin{array}{c|cccccc}
-         & 1 & 2 & 3 & 4 & 5 & 6\\
-        \hline
-         1 & 0 & 150 & 3 & 4 & 5 & 6\\
-         2 &   & 0 & 360 & 4 & 5 & 6\\
-         3 &   &   & 0 & 180 & 5 & 6\\
-         4 &   &   &   & 0 & 3000 & 6\\
-         5 &   &   &   &   & 0 & 1500\\
-         6 &   &   &   &   &   & 0
-        \end{array}
-        $
-    %}%
-    \end{center}
+    \includegraphics[width=\textwidth]{parenthesization}
     
     
 
