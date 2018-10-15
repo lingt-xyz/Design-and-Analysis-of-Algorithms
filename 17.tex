@@ -1,0 +1,55 @@
+\documentclass[a4paper]{article}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{tikz-qtree}
+
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
+%https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
+\usepackage{float}% http://ctan.org/pkg/float
+
+%https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
+\usepackage[graphicx]{realboxes}
+\title{17 Amortized Analysis}
+\author{Ling Tan}
+\date{2018-10-11}
+
+\begin{document}
+\maketitle
+An amortized analysis \textit{guarantees} the average performance of each option in the worst case. It is different from average case analysis, the probability is not involved.
+
+\subsection*{Two examples used:}
+\begin{enumerate}
+    \item Stack with MULTIPOP, which can pop several objects at once.
+    \item Binary Counter that counts up from 0 by means of operation INCREMENT.
+\end{enumerate}
+\section*{17.1 Aggregate analysis}
+We show that for all $n$, a sequence of $n$ operations takes worst case time $T(n)$ in total. Thus, cost per operation is $T(n)/n$.
+
+\subsection*{Stack operations}
+\subsection*{Incrementing a binary counter}
+
+\section*{17.2 The accounting method}
+\subsection*{Stack operations}
+Assume that:\\
+\hspace*{1em} MULTIPOP($S,k$)\\
+\hspace*{1em}    for$(i=1; (\text{length}(S)>0)\text{ \&\& }(i\leq k);i++)$\\
+\hspace*{2em}    pop(S);
+
+\subsection*{Incrementing a binary counter}
+
+\section*{17.3 The potential method}
+\subsection*{Stack operations}
+\subsection*{Incrementing a binary counter}
+\end{document}

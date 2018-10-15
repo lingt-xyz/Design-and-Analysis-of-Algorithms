@@ -12,6 +12,11 @@
 
 \usepackage{amsmath,amscd}
 
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
 \title{COMP 465 Assignment 2}
 \date{2018-10-10}
 \author{Ling Tan}
@@ -62,12 +67,21 @@ $(A_1A_2)\big((A_3A_4)(A_5A_6)\big)$
 
 \section*{Problem 2: (15.4-2) } Show how to reconstruct an LCS from the completed $c$ table and the original sequences $X = \langle x_1, x_2,\dots, x_m\rangle$ and $Y = \langle y_1, y_2, \dots, y_n\rangle$ in $O(m +n)$ time, without using the $b$ table.
 \subsection*{Answer:}
-Compare from the right bottom of table $c$.\\
-If $X_m==Y_n$, then print this value and move to the left top direction one step; that is $i-1$ and $j-1$.\\
-Else, we find $\max\{c[i-1, j],c[i, j-1]\}$, and move to that position.\\
-Do this compare-move-compare recursively until we reach the left top corner; that is $i=0$ and $j=0$.\\
-\\
-Because for each element we only access once, the total is $O(m+n)$.
+\begin{algorithm}[H]% Use "stay right HERE" already!
+    \caption{PRINT-LCS($c,x,i,j$)}
+    \begin{algorithmic}[1] % The number tells where the line numbering should start
+        \If{$n==0$ or $j==0$}
+            \State \textbf{return }$n$
+        \ElsIf{$c[i-1][j]==c[i][j]$}
+            \State PRINT-LCS[$c,x,i-1,j$]
+        \ElsIf{$c[i][j-1]==c[i][j]$}
+            \State PRINT-LCS[$c,x,i,j-1$]
+        \Else
+            \State PRINT-LCS[$c,x,i-1,j-1$]
+            \State print($x[i+1]$)
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
 
 
 \section*{Problem 3: (15.4-5)} Give an $O(n^2)$-time algorithm to find the longest monotonically increasing subsequence of a sequence of $n$ numbers.
@@ -93,19 +107,31 @@ Assume the activity with the latest start time $s_k$ is $k$.\\
 \end{enumerate}
 
 \section*{Problem 5: (16.2-2)} Give a dynamic-programming solution to the $0-1$ knapsack problem that runs in $O(n W)$ time, where $n$ is number of items and $W$ is the maximum weight of items that the thief can put in his knapsack.
-\subsection*{Answer:}
-Let $V[n,w]$ denote the total value of $n$ items that have the total weight of $w$.\\
-Let $v_i$ denote the value of item $i$ with weight of $w_i$.\\
-So, $V[0,w_i]=0, V[1, w_i]=v_i$.
-If add $k^{th}$ item, there are two cases:\\
-\begin{enumerate}
-    \item If the total weight is greater than $W$, we cannot add $k^{th}$ item, so the max value is before add this item; that is $V[k-1,w]$.
-    \item Otherwise, we can add this item, and the max value is either $V[k-1,w] +v_k$ or $V[k-1,W-w_k]+v_k$.
-\end{enumerate}
+\subsection*{Answer: e.g.}
+$$
+\begin{array}{c|c}
+     weight & value \\
+     \hline
+     1 & 1 \\
+     3 & 4 \\
+     4 & 5 \\
+     5 & 7
+\end{array}
+$$
+$$
+\begin{array}{c|cccccccc}
+    value(weight)/weight & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+    \hline
+    (1)1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+    (4)3 & 0 & 1 & 1 & 4+0 & 4+1 & 4+1 & 5 & 5\\
+    (5)4 & 0 & 1 & 1 & 4 & 5+0 & 5+1 & 6 & 5+4\\
+    (7)5 & 0 & 1 & 1 & 4 & 5 & 7+0 & 7+1 & 7+1<9
+\end{array}
+$$
 
 \section*{Problem 6: (16.3-1)} Prove that a binary tree that is not full cannot correspond to an optimal prefix code.
 \subsection*{Answer:}
-If tree $T$ is not full, there is a node $a$ has only one child $b$. Assume the parent of $a$ is $c$, we can just remove $a$ and let $b$ be the child of $c$. So we have a new short path for $b$, this contradicts to that the original tree correspond to an optimal prefix code.
+If tree $T$ is not full, there is a node $a$ has only one child $b$. Assume the parent of $a$ is $c$, we can just remove $a$ and let $b$ be the child of $c$. So we have a new shorter path for $b$, this contradicts to that the original tree corresponds to an optimal prefix code.
 
 \section*{Problem 7: (23.1-5)} Let $e$ be a maximum-weight edge on some cycle of $G = (V, E)$. Prove that there is a minimum spanning tree of $G' = (V, E -\{e\})$ that is also a minimum spanning tree of $G$. That is, there is a minimum spanning tree of G that does not include $e$.
 \subsection*{Answer:}
