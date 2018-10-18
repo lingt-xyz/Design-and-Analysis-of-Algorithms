@@ -33,7 +33,9 @@
     & = c \cdot(n-1)\cdot \Bigl(\log n - 1 - \log{\frac{n}{n-1}}\Bigr)+n \\ 
     & = cn\log n - cn -cn \log{\frac{n}{n-1}} - c\log n + c + c\log{\frac{n}{n-1}} + n\\
     & = cn\log n - cn \Bigl(1+\log{\frac{n}{n-1}} \Bigr)- c\log n + c + c\log{\frac{n}{n-1}} + n\\
-    & \geq cn\log n - 2cn - c\log n + c + c\log{\frac{n}{n-1}} + n & \hfill \log{\frac{n}{n-1}} < 1\\
+    & \geq cn\log n - cn (1+1)- c\log n + c + c\log{\frac{n}{n-1}} + n& \hfill \log{\frac{n}{n-1}} < 1\\
+    & = cn\log n - 2cn - c\log n + c + c\log{\frac{n}{n-1}} + n \\
+    & = cn\log n - 2cn - c\log n + c\log{\frac{n}{n-1}}  + c + n \\
     & = cn\log n - 2cn - c(\log n -\log{\frac{n}{n-1}}) + c + n\\
     & = cn\log n - 2cn - c\log ({n-1}) + c + n\\
     & \geq cn\log n - 2cn - cn + c + n & \hfill \log ({n-1})<n\\

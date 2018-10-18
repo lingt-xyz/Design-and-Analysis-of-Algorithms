@@ -23,7 +23,7 @@
 \usepackage[graphicx]{realboxes}
 \title{17 Amortized Analysis}
 \author{Ling Tan}
-\date{2018-10-11}
+\date{2018-10}
 
 \begin{document}
 \maketitle
@@ -35,21 +35,69 @@ An amortized analysis \textit{guarantees} the average performance of each option
     \item Binary Counter that counts up from 0 by means of operation INCREMENT.
 \end{enumerate}
 \section*{17.1 Aggregate analysis}
-We show that for all $n$, a sequence of $n$ operations takes worst case time $T(n)$ in total. Thus, cost per operation is $T(n)/n$.
-
+In \textit{aggregate analysis}, we show that for all $n$, a sequence of $n$ operations takes worst case time $T(n)$ in total. Thus, cost per operation is $T(n)/n$.
 \subsection*{Stack operations}
-\subsection*{Incrementing a binary counter}
+\begin{algorithm}[H]% Use "stay right HERE" already!
+    \caption{ MULTIPOP($S,k$)}
+    \begin{algorithmic}[1] % The number tells where the line numbering should start
+        \For{$(i=1;\text{ length}(S)>0 \And i\leq k;i++)$}
+            \State \textbf{pop$(S)$}
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+The cost of a single MULTIPOP$=\min\{k,length(S)\}$.
 
+\subsection*{Incrementing a binary counter}
+\begin{algorithm}[H]% Use "stay right HERE" already!
+    \caption{ INCREMENT($A$)}
+    \begin{algorithmic}[1] % The number tells where the line numbering should start
+        \State $i=0$
+        \While{$i<A.length$ and $A[i]==1$}
+            \State $A[i]=0$
+            \State $i=i+1$
+        \EndWhile
+        \If{$i<A.length$}
+            \State $A[i]=1$
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+\begin{description}
+\item [Assume] $A.length=k$
+\item[Worse case] A single execution of INCREMENT takes time $\Theta(k)$. Thus a sequence of $n$ INCREMENT operations on an initially zero counter takes time $O(nk)$.
+\item[Amortized] $A[1]$ flips every other time INCREMENT is called. Similar to other ones.
+\begin{enumerate}
+    \item $A[1]$ flips $\lfloor n/2 \rfloor$ times.
+    \item $A[2]$ flips $\lfloor n/4 \rfloor$ times.
+    \item $\cdots$
+    \item $A[i]$ flips $\lfloor n/{2^i} \rfloor$ times.
+\end{enumerate}
+\includegraphics[scale=0.4]{"Incrementing a binary counter"}
+\end{description}
 \section*{17.2 The accounting method}
+In the \textit{accounting method} of amortized analysis, we assign differing charges to different operations, with some operations charged more or less than they actually cost. We call the amount we charge an operation its amortized cost. When an operation’s amortized cost exceeds its actual cost, we assign the difference to specific objects in the data structure as \textit{\textbf{credit}}. Credit can help pay for later operations whose amortized cost is less than their actual cost.
 \subsection*{Stack operations}
-Assume that:\\
-\hspace*{1em} MULTIPOP($S,k$)\\
-\hspace*{1em}    for$(i=1; (\text{length}(S)>0)\text{ \&\& }(i\leq k);i++)$\\
-\hspace*{2em}    pop(S);
-
+The actual costs of the operations were\\
+\begin{tabular}{ll}
+    PUSH &  1,\\
+    POP & 1,\\
+    MULTIPOP & $\min\{k,s\}$.
+\end{tabular}\\
+\\
+Assign the following amortized costs:\\
+\begin{tabular}{lc}
+    PUSH &  2,\\
+    POP & 0,\\
+    MULTIPOP & 0.
+\end{tabular}
 \subsection*{Incrementing a binary counter}
-
+For the amortized analysis, let us charge an amortized cost of 2 dollars to set a bit to 1, credit to be used later when we flip the bit back to 0.\\
+The INCREMENT procedure sets at most one bit, and therefore the amortized cost of an INCREMENT operation is at most 2 dollars.\\
+Thus, for n INCREMENT operations, the total amortized cost is $O(n)$
+which bounds the total actual cost.
 \section*{17.3 The potential method}
+Instead of representing prepaid work as credit stored with specific objects in the data structure, the potential method of amortized analysis represents the prepaid work as “potential energy,” or just “potential,” which can be released to pay for future operations.
 \subsection*{Stack operations}
+Define $\Phi$ on a stack to be the number of objects in the stack. $\Phi(D_0)=0, \Phi(D_i)\geq 0$.
 \subsection*{Incrementing a binary counter}
+Define $\Phi$ of the counter after the $i$th INCREMENT operations to be $b_i$, the number of $1$s in the counter after the $i$th operation.
 \end{document}
