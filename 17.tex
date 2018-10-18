@@ -97,7 +97,28 @@ which bounds the total actual cost.
 \section*{17.3 The potential method}
 Instead of representing prepaid work as credit stored with specific objects in the data structure, the potential method of amortized analysis represents the prepaid work as “potential energy,” or just “potential,” which can be released to pay for future operations.
 \subsection*{Stack operations}
-Define $\Phi$ on a stack to be the number of objects in the stack. $\Phi(D_0)=0, \Phi(D_i)\geq 0$.
+Define $\Phi$ on a stack to be the number of objects in the stack. $\Phi(D_0)=0, \Phi(D_i)\geq 0$.\\
+\\
+Cost of PUSH on a stack with $s$ objects: $\Phi(D_i)-\Phi(D_{i-1})=(s+1)-s=1$.\\
+So the amortized cost of a PUSH is: $\hat{c_i}=c_i+\Phi(D_i)-\Phi(D_{i-1})=1+1=2$.
+
 \subsection*{Incrementing a binary counter}
 Define $\Phi$ of the counter after the $i$th INCREMENT operations to be $b_i$, the number of $1$s in the counter after the $i$th operation.
+\section*{17.4 Dynamic Tables}
+If we use a table $T$ as an array and the table becomes too small, we can
+\begin{enumerate}
+    \item allocate a new larger table $T'$.
+    \item copy the old table $T$ into $T'$, and
+    \item delete $T$.
+\end{enumerate}
+What is the cost of this table expansion?\\
+Cost $c_i$ of $i'$th insertion is:
+\begin{itemize}
+    \item $i$ if $i$ is a power of $2$.
+    \item $1$ otherwise.
+\end{itemize}
+\begin{equation*}
+\sum_{i=1}^{n}{c_i}\leq n+\sum_{j=0}^{\log{n}}{2^j}=n+(2^{\log{n+1}}-1)=n+2n-1<3n
+\end{equation*}
+\subsection*{Table expansion and contraction}
 \end{document}
