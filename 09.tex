@@ -23,12 +23,86 @@
 \usepackage[graphicx]{realboxes}
 \title{9 Medians and Order Statistics}
 \author{Ling Tan}
-\date{2018-9-21}
+\date{2018-9}
 
 \begin{document}
 \maketitle
+\begin{description}
+\item[Order Statistics:] The $i$th \textbf{order statistics} of a set of $n$ elements is the $i$th smallest element.
+\item[Median:] A median is the “halfway point” of a set.
+\item[Selection Problem:] Given an array $A$ of $n$ distinct elements, find $x\in A$ larger than exactly $i-1$ elements in it $\equiv$ find $i$th order statistics of $A$.
+\end{description}
 
-\section*{9.1 Minimum and maximum}
-\section*{9.2 Selection in expected linear time}
-\section*{9.3 Selection in worst-case linear time}
+\section*{9.1 Minimum and maximum $\Theta(n)$}
+\begin{enumerate}
+    \item Minimum: with $n-1$ comparisons.
+    \item Maximum: same with minimum, with $n-1$ comparison.
+    \item Simultaneous minimum and maximum: with $2(n-1)$ comparisons, but can be better.\\
+    Process elements in pairs. Get minimum from the smaller group and maximum from the larger group.
+\end{enumerate}
+\section*{9.2 Selection in \textcolor{red}{expected} linear time $\Theta(n)$}
+\begin{itemize}
+    \item Quicksort: processes both sides of the partions.
+    \item RANDOMIZED-SELECT: works on only one side of the partition.
+\end{itemize}
+\begin{algorithm}[H]% Use "stay right HERE" already!
+    \caption{\textcolor{blue}{RANDOMIZED-SELECT}($A,p,r,i$)}
+    \begin{algorithmic}[1] % The number tells where the line numbering should start
+        \If{$p==r$} // if only one element
+            \State \textbf{return }$A[p]$
+        \EndIf
+        \State $q=$ RANDOMIZED-PARTITION($A,p,r$)
+        \State $k=q-p+1$
+        \If{$i==k$} // the pivot value is the answer
+            \State \textbf{return } $A[q]$
+        \ElsIf{$i<k$}
+            \State \textbf{return } RANDOMIZED-SELECT($A,p,q-i,i$)
+        \Else
+            \State \textbf{return } RANDOMIZED-SELECT($A,q+1,r,i-k)$
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+\section*{9.3 Selection in worst-case linear time $O(n)$}
+\textcolor{blue}{\textit{\textbf{Guarantee}}} a good split upon partitioning the array.\\
+\\
+\textbf{Algorithm} \textcolor{blue}{SELECT}
+\begin{enumerate}
+    \item Divide $n$ elements into $\lfloor n/5 \rfloor$ group of $5$ elements, and one group that can have less than $5$ elements.
+    \item Find the median of each group.
+    \item Use SELECT recursively to find the median $x$ of the $\lceil n/5 \rceil$ values.
+    \item Partition the input around $x$.
+    \item Continue as in the SELECT algorithm recursively.
+\end{enumerate}
+\includegraphics[scale=0.5]{"algorithm SELECT"}
+\begin{itemize}
+    \item At least half of the $\lceil n/5\rceil$ groups contribute at least $3$ elements that are greater than $x$;
+    \item Except for the one group that has fewer than $5$ elements,
+    \item and the one group containing $x$ itself.
+\end{itemize}
+\begin{equation*}
+    \Rightarrow 3\Bigg(\bigg\lceil\frac{1}{2}\Big\lceil\frac{n}{5}\Big\rceil\bigg\rceil-2\Bigg)\geq \frac{3n}{10}-6
+\end{equation*}
+\begin{itemize}
+    \item At least $3n/10-6$ elements greater than $x$;
+    \item At least $3n/10-6$ elements less than $x$;
+    \item \textcolor{red}{At most} $n-(3n/10-6)=7n/10+6$ elements less/greater than $x$.
+\end{itemize}
+\subsection*{Worst case}
+\begin{align*}
+    T(n)\quad&\leq \quad T(\lceil n/5\rceil)+T(7n/10+6)+O(n)\\
+    &\leq \quad c\lceil n/5\rceil+c(7n/10+6)+an\\
+    &\leq \quad c(n/5+1)+c(7n/10+6)+an\\
+    &\leq \quad cn/5+c+7cn/10+6c+an\\
+    &=\quad 9cn/10+7c+an\\
+    &=\quad cn+(-cn/10+7c+an)\\
+    &=\quad O(n)\quad \text{ if }-cn/10+7c+an\leq 0
+\end{align*}
+\begin{align*}
+    -cn/10+7c+an&\leq 0\\
+    -cn+70c+10an&\leq 0\\
+    (70-n)c+10an&\leq 0\\
+    c&\geq \frac{10an}{(n-70)}\\
+    c&\geq 10a\Big(\frac{n}{n-70}\Big)
+\end{align*}
+\subsection*{9.X Finding a closest pair of points}
 \end{document}

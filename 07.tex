@@ -29,7 +29,26 @@
 \maketitle
 
 \section*{7.1 Description of quicksort}
+\begin{description}
+\item[Divide] Partition (rearrange) the array $A[p..r]$ into two (possibly empty) sub-arrays $A[p..q-1]$ and $A[q+1..r]$ such that each element of $A[p..q-1]$ is less than or equal to $A[q]$, which is, in turn, less than or equal to each element of $A[q+1..r]$. Compute the index q as part of this partitioning procedure.
+\item[Conquer] Sort the two sub-arrays $A[p..q-1]$ and $A[q+1..r]$ by recursive calls to quicksort.
+\item[Combine] Because the sub-arrays are already sorted, no work is needed to combine them: the entire array $A[p..r]$ is now sorted.
+\end{description}
 \section*{7.2 Performance of quicksort}
+\begin{itemize}
+    \item Worst-case partitioning: $T(n)=\Theta(n^2)$
+    \item Best-case partitioning: $T(n)=\Theta(n\log n)$
+    \item Balanced partitioning: $T(n)=\Theta(n\log n)$
+\end{itemize}
+\includegraphics[scale=0.7]{"Balanced partitioning"}
 \section*{7.3 A randomized version of quicksort}
+\begin{algorithm}[H]% Use "stay right HERE" already!
+    \caption{RANDOMIZED-PARTITION($A,p,r$)}
+    \begin{algorithmic}[1] % The number tells where the line numbering should start
+        \State $i=$ RANDOM($p,r$)
+        \State exchange $A[r]$ with $A[i]$
+        \State \textbf{return }PARTITION($A,p,r$)
+    \end{algorithmic}
+\end{algorithm}
 \section*{7.4 Analysis of quicksort}
 \end{document}

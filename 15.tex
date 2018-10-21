@@ -21,6 +21,9 @@
 
 %https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
 \usepackage[graphicx]{realboxes}
+
+\newtheorem{theorem}{Theorem}
+
 \title{15 Dynamic Programming}
 \author{Ling Tan}
 \date{2018-9-21}
@@ -132,7 +135,7 @@ Given a rod of length n inches and an array of prices that contains prices of al
         \end{cases}
     $$
     
-\section*{15.2 Matrix-chain multiplication}
+\section*{15.2 Matrix-chain multiplication $\Theta(n^3)$}
 $$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ times multiplications.}$$
 
 \subsection*{Applying dynamic programming}
@@ -159,7 +162,7 @@ $$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ times mu
         \item a sequence $p=\langle p_1,p_2,\ldots, ,p_n\rangle $
         \item table $m[1..n, 1..n]$ for storing the $m[i,j]$ costs
         \item table $s[1..n-1,2..n]$ for recording which index of $k$ achieved the optimal cost in computing $m[i,j]$
-    \end{enumerate}
+    \end{enumerate} 
     \includegraphics[width=\textwidth]{parenthesization}
 
     \item Construct an optimal solution from computed information.
@@ -168,8 +171,38 @@ $$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ times mu
 \subsection*{Optimal substructure}
 \subsection*{Reconstructing an optimal solution}
 
-\section*{15.3 Longest common subsequence}
+\section*{15.4 Longest common sub-sequence}
+Given two strings of characters,\\
+$
+x_1x_2x_3\cdots x_n\\
+y_1y_2y_3\cdots y_n\\
+$
+find the longest substring that is in both strings. The substring can be obtained by omitting some characters.
+\subsection*{Applying dynamic programming}
+\begin{enumerate}
+    \item Characterizing a longest common sub-sequence\\
+        \textcolor{blue}{Theorem} (Optimal substructure of an LCS)\\
+        Let $X=\langle x_1,x_2,\ldots, x_m\rangle$ and $Y=\langle y_1,y_2,\ldots, y_n\rangle$ be sequences, and let $Z=\langle z_1,z_2,\ldots, z_k\rangle$ be any LCS of $X$ and $Y$.
+        \begin{enumerate}
+            \item If $x_m=y_n$, then $z_k=x_m=y_n$ and $z_{k-1}$ is an LCS of $X_{m-1}$ and $Y_{n-1}$.
+            \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{x_m}$ implies that $Z$ is an LCS of $X_{m-1}$ and $Y$.
+            \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{y_n}$ implies that $Z$ is an LCS of $X$ and $Y_{n-1}$.
+        \end{enumerate}
+    \item A recursive solution
+        \begin{equation*}
+            c[i,j] =
+            \begin{cases}
+            0  & \text{if $i=0$ or $j=0$,} \\
+            c[i-1,j-1]+1 & \text{if $i,j>0$ and $x_i=y_j$},\\
+            \max{(c[i,j-1],c[i-1,j])} & \text{if $i,j>0$ and $x_i\neq y_j$}.
+            \end{cases}    
+        \end{equation*}
+    \item Computing the length of an LCS
+    \item Constructing an LCS
+\end{enumerate}
 \begin{center}
     \includegraphics[scale=0.8]{"Longest common subsequence"}
 \end{center}
+\section*{15.X Calculate binomial coefficients}
+\section*{15.Y Assembly-line scheduling}
 \end{document}
