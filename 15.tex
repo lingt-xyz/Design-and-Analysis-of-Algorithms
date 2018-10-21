@@ -4,7 +4,7 @@
 \usepackage{parskip} % Package to tweak paragraph skipping
 \usepackage{tikz} % Package for drawing
 \usepackage{amsmath}
-\usepackage{hyperref}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{tikz-qtree}
 
@@ -22,11 +22,13 @@
 %https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
 \usepackage[graphicx]{realboxes}
 
+\usepackage{hyperref}
+
 \newtheorem{theorem}{Theorem}
 
 \title{15 Dynamic Programming}
 \author{Ling Tan}
-\date{2018-9-21}
+\date{2018-9}
 
 \begin{document}
 \maketitle
@@ -53,58 +55,58 @@ The sequence of four steps to follow:
     \item Construct an optimal solution from computed information.
 \end{enumerate}
 
-\section*{15.1 Rod cutting}
+\section*{15.1 Rod cutting $\Theta(n^2)$}
 Given a rod of length $n$ inches and an array of prices that contains prices of all pieces of size smaller than $n$. Determine the maximum value obtainable by cutting up the rod and selling the pieces.\\
 Note that we can cut a rod of length $n$ in $2^{n-1}$ ways, since we have an independent option of cutting, or not cutting, at distance $i$ inches from the left end, for $i=1,2,\ldots, n-1$.\\ 
-For example, we can choose not cut at $1^{st}$ and cut at $2^{nd}$ inch, then we have a 2 inches rob.
-$$
-r_n=max(p_n, r_1+r_{n-1}, r_2+r_{n-2},\cdots, r_{n-1}+r_{1})
-$$
+For example, we can choose not cut at $1^{st}$ and cut at $2^{nd}$ inch, then we have a 2 inches rod.
+\begin{equation*}
+r_n=\max(p_n, r_1+r_{n-1}, r_2+r_{n-2},\cdots, r_{n-1}+r_{1})
+\end{equation*}
 The rot-cutting problem exhibits \textbf{\textit{optimal substructure}}: optimal solutions to a problem incorporate optimal solutions to related sub-problems.\\
 \\
 Think it in a different way:
     $$r_n=\max_{1\leq i\leq n}(p_i+r_{n-1})$$
     
 \subsection*{Recursive top-down implementation}
-\begin{algorithm}[H]% Use "stay right HERE" already!
-    \caption{CUT-ROD($p,n$)}
-    \begin{algorithmic}[1] % The number tells where the line numbering should start
-        \If{$n==0$}
-            \State \textbf{return }$0$
-        \EndIf
-        \State $q=-\infty$
-        \For{$i=1$ \textbf{to} $n$}
-        \State $q=max(q,p[i]+\text{CUT-ROD}(p,n-i))$
-        \EndFor
-    \end{algorithmic}
-\end{algorithm}
-Why is CUT-ROD inefficient? (Calling itself recursively)
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{CUT-ROD($p,n$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \If{$n==0$}
+                \State \textbf{return }$0$
+            \EndIf
+            \State $q=-\infty$
+            \For{$i=1$ \textbf{to} $n$}
+            \State $q=max(q,p[i]+\text{CUT-ROD}(p,n-i))$
+            \EndFor
+        \end{algorithmic}
+    \end{algorithm}
+    Why is CUT-ROD inefficient? (Calling itself recursively)
 
 \subsection*{Using dynamic programming for optimal rod cutting}
-Solve the same sub-problems repeatedly $\Rightarrow$ Solve each sub-problem only \textit{once}.\\
-So it uses additional memory to save sub-problem: \textbf{\textit{time-memory trade-off}}\\
-\\
-Two equivalent ways to implement a dynamic programming approach:
-\begin{enumerate}
-    \item top-down with memoization
-    \item bottom-up method
-    \begin{algorithm}[H]% Use "stay right HERE" already!
-    \caption{BOTTOM-UP-CUT-ROD($p,n$)}
-    \begin{algorithmic}[1] % The number tells where the line numbering should start
-        \State let $r[0\ldots n]$ be a new array
-        \State $r[0]=0$
-        \For{$j=1$ \textbf{to} $n$}
-            \State $q=-\infty$
-            \For{$i=1$ \textbf{to} $j$}
-            \State $q=max(q,p[i]+r[j-i])$
+    Solve the same sub-problems repeatedly $\Rightarrow$ Solve each sub-problem only \textcolor{red}{\textit{once}}.\\
+    So it uses additional memory to save sub-problem: \textbf{\textit{time-memory trade-off}}\\
+    \\
+    Two equivalent ways to implement a dynamic programming approach:
+    \begin{enumerate}
+        \item top-down with memoization
+        \item bottom-up method
+        \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{BOTTOM-UP-CUT-ROD($p,n$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \State let $r[0\ldots n]$ be a new array
+            \State $r[0]=0$
+            \For{$j=1$ \textbf{to} $n$}
+                \State $q=-\infty$
+                \For{$i=1$ \textbf{to} $j$}
+                \State $q=max(q,p[i]+r[j-i])$
+                \EndFor
+                \State $r[j]=q$
             \EndFor
-            \State $r[j]=q$
-        \EndFor
-        \State \textbf{return} $r[n]$
-    \end{algorithmic}
-\end{algorithm}
-\end{enumerate}
-
+            \State \textbf{return} $r[n]$
+        \end{algorithmic}
+    \end{algorithm}
+    \end{enumerate}
+    
 \subsection*{Reconstructing a solution}
 skip
 \subsection*{Example}
@@ -136,42 +138,44 @@ Given a rod of length n inches and an array of prices that contains prices of al
     $$
     
 \section*{15.2 Matrix-chain multiplication $\Theta(n^3)$}
-$$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ times multiplications.}$$
+$$A_{p\times q} B_{q\times r}\Rightarrow C=AB \text{ needs } pqr \text{ multiplications.}$$
 
 \subsection*{Applying dynamic programming}
-\begin{enumerate}
-    \item The structure of an optimal parenthesization.\\
-    Suppose that to optimally parenthesize $A_iA_{i+1}\cdots A_j$, we split the product between $A_k$ and $A_{k+1}$. Then the way we parenthesize the ``prefix" subchain $A_iA_{i+1}\cdots A_k$ within this optimal parenthesization of $A_iA_{i+1}\cdots A_j$ must be an optimal parenthesization of $A_iA_{i+1}\cdots A_k$.
-    \item Recursively define the value of an optimal solution.\\
-    Let $m[i,j]$ be the minimum number of scalar multiplications needed to compute the matrix $A_{i.. j}$
-    $$
-    m[i,j]=m[i,k]+m[k+1,j] +p_{i-1}p_kp_j
-    $$
-    So we only need to check the value of $k$ from $i$ to $j-1$
-    $$
-    m[i][j]=
-        \begin{cases}
-        0, & \text{if } i=j\\
-        \min_{i\leq k <j}\{m[i,k]+m[k+1,j] +p_{i-1}p_kp_j\},  & \text{if $i<j$}
-        \end{cases}
-    $$
-    Let $s[i,j]$ be a value of $k$ at which we split the product $A_iA_{i+1}\ldots A_j$ in an optimal parenthesization.
-    \item Computer the value of an optimal solution, typically in a bottom-up fashion.\\
-    Instead of computing the solution recursively, we compute the optimal cost by using a tabular, bottom-up approach.
     \begin{enumerate}
-        \item a sequence $p=\langle p_1,p_2,\ldots, ,p_n\rangle $
-        \item table $m[1..n, 1..n]$ for storing the $m[i,j]$ costs
-        \item table $s[1..n-1,2..n]$ for recording which index of $k$ achieved the optimal cost in computing $m[i,j]$
-    \end{enumerate} 
-    \includegraphics[width=\textwidth]{parenthesization}
-
-    \item Construct an optimal solution from computed information.
-\end{enumerate}
+        \item The structure of an optimal parenthesization.\\
+        Suppose that to optimally parenthesize $A_iA_{i+1}\cdots A_j$, we split the product between $A_k$ and $A_{k+1}$. Then the way we parenthesize the ``prefix" subchain $A_iA_{i+1}\cdots A_k$ within this optimal parenthesization of $A_iA_{i+1}\cdots A_j$ must be an optimal parenthesization of $A_iA_{i+1}\cdots A_k$.
+        \item Recursively define the value of an optimal solution.\\
+        Let $m[i,j]$ be the minimum number of scalar multiplications needed to compute the matrix $A_{i.. j}$
+        \begin{equation*}
+        m[i,j]=m[i,k]+m[k+1,j] +p_{i-1}p_kp_j
+        \end{equation*}
+        So we only need to check the value of $k$ from $i$ to $j-1$
+        \begin{equation*}
+        m[i][j]=
+            \begin{cases}
+            0, & \text{if } i=j\\
+            \min_{i\leq k <j}\{m[i,k]+m[k+1,j] +p_{i-1}p_kp_j\},  & \text{if $i<j$}
+            \end{cases}
+        \end{equation*}
+        Let $s[i,j]$ be a value of $k$ at which we split the product $A_iA_{i+1}\ldots A_j$ in an optimal parenthesization.
+        \item Computer the value of an optimal solution, typically in a bottom-up fashion.\\
+        Instead of computing the solution recursively, we compute the optimal cost by using a tabular, bottom-up approach.
+        \begin{enumerate}
+            \item a sequence $p=\langle p_1,p_2,\ldots, ,p_n\rangle $
+            \item table $m[1..n, 1..n]$ for storing the $m[i,j]$ costs
+            \item table $s[1..n-1,2..n]$ for recording which index of $k$ achieved the optimal cost in computing $m[i,j]$
+        \end{enumerate} 
+        \includegraphics[width=\textwidth]{parenthesization}
+        \item Construct an optimal solution from computed information.
+    \end{enumerate}
+    
 \section*{15.3 Elements of dynamic programming}
+
 \subsection*{Optimal substructure}
+
 \subsection*{Reconstructing an optimal solution}
 
-\section*{15.4 Longest common sub-sequence}
+\section*{15.4 Longest common sub-sequence $\Theta(mn)$}
 Given two strings of characters,\\
 $
 x_1x_2x_3\cdots x_n\\
@@ -179,30 +183,49 @@ y_1y_2y_3\cdots y_n\\
 $
 find the longest substring that is in both strings. The substring can be obtained by omitting some characters.
 \subsection*{Applying dynamic programming}
-\begin{enumerate}
-    \item Characterizing a longest common sub-sequence\\
-        \textcolor{blue}{Theorem} (Optimal substructure of an LCS)\\
-        Let $X=\langle x_1,x_2,\ldots, x_m\rangle$ and $Y=\langle y_1,y_2,\ldots, y_n\rangle$ be sequences, and let $Z=\langle z_1,z_2,\ldots, z_k\rangle$ be any LCS of $X$ and $Y$.
-        \begin{enumerate}
-            \item If $x_m=y_n$, then $z_k=x_m=y_n$ and $z_{k-1}$ is an LCS of $X_{m-1}$ and $Y_{n-1}$.
-            \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{x_m}$ implies that $Z$ is an LCS of $X_{m-1}$ and $Y$.
-            \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{y_n}$ implies that $Z$ is an LCS of $X$ and $Y_{n-1}$.
-        \end{enumerate}
-    \item A recursive solution
-        \begin{equation*}
-            c[i,j] =
-            \begin{cases}
-            0  & \text{if $i=0$ or $j=0$,} \\
-            c[i-1,j-1]+1 & \text{if $i,j>0$ and $x_i=y_j$},\\
-            \max{(c[i,j-1],c[i-1,j])} & \text{if $i,j>0$ and $x_i\neq y_j$}.
-            \end{cases}    
-        \end{equation*}
-    \item Computing the length of an LCS
-    \item Constructing an LCS
-\end{enumerate}
-\begin{center}
-    \includegraphics[scale=0.8]{"Longest common subsequence"}
-\end{center}
+    \begin{enumerate}
+        \item Characterizing a longest common sub-sequence\\
+            \textcolor{blue}{Theorem} (Optimal substructure of an LCS)\\
+            Let $X=\langle x_1,x_2,\ldots, x_m\rangle$ and $Y=\langle y_1,y_2,\ldots, y_n\rangle$ be sequences, and let $Z=\langle z_1,z_2,\ldots, z_k\rangle$ be any LCS of $X$ and $Y$.
+            \begin{enumerate}
+                \item If $x_m=y_n$, then $z_k=x_m=y_n$ and $z_{k-1}$ is an LCS of $X_{m-1}$ and $Y_{n-1}$.
+                \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{x_m}$ implies that $Z$ is an LCS of $X_{m-1}$ and $Y$.
+                \item If $x_m\neq y_n$, then $z_k\neq \textcolor{red}{y_n}$ implies that $Z$ is an LCS of $X$ and $Y_{n-1}$.
+            \end{enumerate}
+        \item A recursive solution
+            \begin{equation*}
+                c[i,j] =
+                \begin{cases}
+                0  & \text{if $i=0$ or $j=0$,} \\
+                c[i-1,j-1]+1 & \text{if $i,j>0$ and $x_i=y_j$},\\
+                \max{(c[i,j-1],c[i-1,j])} & \text{if $i,j>0$ and $x_i\neq y_j$}.
+                \end{cases}    
+            \end{equation*}
+        \item Computing the length of an LCS
+        \item Constructing an LCS
+    \end{enumerate}
+\subsection*{Example}
+    \begin{align*}
+        X&=\langle A,B,C,B,D,A,B\rangle\\
+        Y&=\langle B,D,C,A,B,A\rangle
+    \end{align*}
+    \begin{center}
+        \includegraphics[scale=0.6]{"Longest common subsequence"}
+    \end{center}
+
+\section*{15.5 Optimal binary search tree $O(n^3)$}
+
 \section*{15.X Calculate binomial coefficients}
+
 \section*{15.Y Assembly-line scheduling}
+
+\section*{15.Z Longest increasing subsequece $O(n^2)$}
+    \begin{tabular}{l|l r r r r r r r r r r r}
+         input & ( & 10 & 3 & 12 & 18 & 30 & 4 & 6 & 21 & 7 & 20 & )\\
+         \hline
+         length& [ & 1 & 1 & 2 & 3 & 4 & 2 & 3 & 4 & 4 & 5 & ]
+    \end{tabular}
+    \begin{equation*}
+        \text{Run-time: }\sum_{i=1}^{n}{i-1}=\frac{n(n-1)}{2}
+    \end{equation*}
 \end{document}

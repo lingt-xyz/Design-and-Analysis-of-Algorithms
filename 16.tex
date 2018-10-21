@@ -7,6 +7,14 @@
 \usepackage{hyperref}
 \usepackage{amssymb}
 \usepackage{tikz-qtree}
+\usepackage{amsthm}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
 
 \title{16 Greedy Algorithms}
 \author{Ling Tan}
@@ -17,19 +25,23 @@
 
 \section*{16.1 An activity-selection problem}
 Suppose we have a set $S={a_1,a_2, \dots, a_n}$ of $n$ proposed activities that wish to use a resource, such as a lecture hall, which can serve only one activity at a time. Each activity $a_i$ has a start time $s_i $ and a finish time $f_i$. Activities $a_i$ and $a_j$ are compatible if the intervals do not overlap. In the activity-selection problem, we wish to select a \color{red}maximum-size \color{black} subset of mutually compatible activities. We assume that the activities are sorted in monotonically increasing order of finish time: $f_1\leq f_2 \leq f_3 \leq \dots \leq f_{n-1} \leq f_n$.
+
 \subsection*{Optimal substructure property}
-Given an optimal solution $A\subseteq S$, remove an activity $k$ with earliest finish time $f_k$, then $A-\{k\}$ is an optimal solution to $S-\{i:s_i < f_k\}, 1\leq i\leq n$.\\
-Proof (Contradiction): Assume $A-\{k\}$ is not an optimal solution to the sub-problem $S-\{i:s_i < f_k\}, 1\leq i\leq n$, but $B$ is an optimal solution to this sub-problem.\\
+Given an optimal solution $A\subseteq S$, remove an activity $k$ with earliest finish time $f_k$, then $A-\{k\}$ is an optimal solution to $S-\{i:s_i < f_k\}, 1\leq i\leq n$.
+\begin{proof}
+(By Contradiction): Assume $A-\{k\}$ is not an optimal solution to the sub-problem $S-\{i:s_i < f_k\}, 1\leq i\leq n$, but $B$ is an optimal solution to this sub-problem.\\
 So $|B|>|A-\{k\}|=|A|-1$.\\
 Consider a subset $A'\subseteq S$ such that $A'=B\cup \{k\}$, then $|A'|=|B|+1>|A|-1+1=|A|$.\\
 So $A'$ is a solution to $S$ with more activities than $A$, this leads to a contradiction that $A$ is an optimal solution. 
+\end{proof}
 
 \subsection*{Greedy Choice}
-The activity with earliest finish time is in an optimal solution.\\
-Proof: Without loss of generality, assume the activity with the earliest finish time is $1$.\\
+The activity with earliest finish time is in an optimal solution.
+\begin{proof}Without loss of generality, assume the activity with the earliest finish time is $1$.\\
 Consider any optimal solution to $S$ is $A=\{i_i, i_2,\dots, i_p\}, i_j =1,2,\dots, n$.\\
 It's clear that $f_{i_j} \geq f_1$, for all $j=1,2,\dots,p$.\\
 If replace $i_1$ with the activity $1$, that is $A'= \{1, i_2, \dots, i_p\}$. It is also an optimal solution because these activities are compatible and $|A'|=p=|A|$.
+\end{proof}
 
 \subsection*{Solution}
 Apply GC: remove the activity with the earliest finish time.\\
@@ -37,11 +49,40 @@ Apply OS: new subset.\\
 Recursivly apply GC and OS.
 
 \section*{16.2 Elements of the greedy strategy}
+    \begin{enumerate}
+        \item Greedy-choice property
+        \item Optimal substructure
+        \item Greedy versus dynamic programming
+            \begin{itemize}
+                \item 0-1 knapsack problem cannot be solved by a greedy algorithm.
+            \end{itemize}
+    \end{enumerate}
 \section*{16.3 Huffman codes}
+    \begin{tabular}{c|cccccc}
+         $c$ & a & b & c & d & e & f\\
+         \hline
+         $c.freq$& 45 & 13 & 12 & 16 & 9 & 5
+    \end{tabular}
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{HUFFMAN($C$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \State $n=|C|$
+            \State $Q=C$
+            \For{i=1 to n-1}
+                \State allocate a new node $z$
+                \State $z.left=x=$ EXTRACT-MIN($Q$)
+                \State $z.right=y=$ EXTRACT-MIN($Q$)
+                \State $z.freq=x.freq+y.freq$
+                \State INSERT($Q,z$)S
+            \EndFor
+            \State \textbf{return EXTRACT-MIN}$(Q)$ // return the root of the tree
+        \end{algorithmic}
+    \end{algorithm}
+    \includegraphics[width=\textwidth]{"huffman"}
 \subsection*{Optimal Substructure property}
-$$
+\begin{equation*}
 w(T)=\sum_{a\in \{\text{leaves of }T\}}{(d_a \cdot f_a)}
-$$
+\end{equation*}
 Let $T$ be Optimal Tree for the weights $w_1+w_2,w_3\ldots,w_n$ where $w_1\leq w_2\leq w_3\leq \cdots \leq w_n$. At the leaf $w_1+w_2$ place a (complete) binary tree of height $1$, and assign the weights $w_1$ and $w_2$ to the children of the former leaf. Then the new binary tree $T_1$ is Optimal Tree for the weights $w_1, w_2, w_3, \ldots , w_n$. \\
 
 Proof:\\

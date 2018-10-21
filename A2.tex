@@ -83,7 +83,6 @@ $(A_1A_2)\big((A_3A_4)(A_5A_6)\big)$
     \end{algorithmic}
 \end{algorithm}
 
-
 \section*{Problem 3: (15.4-5)} Give an $O(n^2)$-time algorithm to find the longest monotonically increasing subsequence of a sequence of $n$ numbers.
 \subsection*{Answer:}
 Be monotone increasing means sorted. Therefore this problem is equivalent to finding the longest sorted (increasingly) subsequence in this sequence.\\
@@ -93,7 +92,7 @@ Because this is $n\times n$ array, we have $O(n^2)$.
 
 \section*{Problem 4: (16.1-2)} Suppose that instead of always selecting the first activity to finish, we instead select the last activity to start that is compatible with all previously selected activities. Describe how this approach is a greedy algorithm, and prove that it yields an optimal solution.
 \subsection*{Answer:}
-Assume the activity with the latest start time $s_k$ is $k$.\\
+Assume the activity with the latest start time $s_k$ is $k$.
 \begin{enumerate}
     \item Greedy Choice: The activity with the latest start time is in an optimal solution.\\
     Proof:\\

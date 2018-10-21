@@ -16,6 +16,8 @@
 \usepackage{graphicx}
 \graphicspath{ {./resources/} }
 
+\usepackage{hyperref}
+
 %https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
 \usepackage{float}% http://ctan.org/pkg/float
 
@@ -88,21 +90,47 @@
     \item \textcolor{red}{At most} $n-(3n/10-6)=7n/10+6$ elements less/greater than $x$.
 \end{itemize}
 \subsection*{Worst case}
-\begin{align*}
-    T(n)\quad&\leq \quad T(\lceil n/5\rceil)+T(7n/10+6)+O(n)\\
-    &\leq \quad c\lceil n/5\rceil+c(7n/10+6)+an\\
-    &\leq \quad c(n/5+1)+c(7n/10+6)+an\\
-    &\leq \quad cn/5+c+7cn/10+6c+an\\
-    &=\quad 9cn/10+7c+an\\
-    &=\quad cn+(-cn/10+7c+an)\\
-    &=\quad O(n)\quad \text{ if }-cn/10+7c+an\leq 0
-\end{align*}
-\begin{align*}
-    -cn/10+7c+an&\leq 0\\
-    -cn+70c+10an&\leq 0\\
-    (70-n)c+10an&\leq 0\\
-    c&\geq \frac{10an}{(n-70)}\\
-    c&\geq 10a\Big(\frac{n}{n-70}\Big)
-\end{align*}
-\subsection*{9.X Finding a closest pair of points}
+    \begin{align*}
+        T(n)\quad&\leq \quad T(\lceil n/5\rceil)+T(7n/10+6)+O(n)\\
+        &\leq \quad c\lceil n/5\rceil+c(7n/10+6)+an\\
+        &\leq \quad c(n/5+1)+c(7n/10+6)+an\\
+        &\leq \quad cn/5+c+7cn/10+6c+an\\
+        &=\quad 9cn/10+7c+an\\
+        &=\quad cn+(-cn/10+7c+an)\\
+        &=\quad O(n)\quad \text{ if }-cn/10+7c+an\leq 0
+    \end{align*}
+    \begin{align*}
+        -cn/10+7c+an&\leq 0\\
+        -cn+70c+10an&\leq 0\\
+        (70-n)c+10an&\leq 0\\
+        c&\geq \frac{10an}{(n-70)}\\
+        c&\geq 10a\Big(\frac{n}{n-70}\Big)
+    \end{align*}
+\subsection*{Why $5$? \href{https://people.eecs.berkeley.edu/~luca/w4231/fall99/slides/l3.pdf}{(See notes)}}
+    In general, the recursion
+    \begin{equation*}
+        T(n)\leq T(\alpha n)+T(\beta n)+cn, T(1)=c'
+    \end{equation*}
+    solves to
+    \begin{equation*}
+        T(n)=
+        \begin{cases}
+        O(n),  & \text{if $\alpha+\beta<1$} \\
+        \Omega(n\log{n}), & \text{if $\alpha+\beta\geq1$}
+        \end{cases}
+    \end{equation*}
+\subsection*{The group size is at least 4 ?}
+    \begin{itemize}
+        \item At least $\Big\lceil{\frac{k}{2}}\Big\rceil\bigg(\Big\lceil{\frac{1}{2}\big\lceil{\frac{n}{k}}\big\rceil}\Big\rceil-2\bigg)\geq \frac{n}{4}-k$
+        \item At most $n-\big(\frac{n}{4}-k\big)=\frac{3n}{4}+k$
+        \item What the value of $k$ to get $O(n)$?
+    \end{itemize}
+    \begin{align*}
+        T(n)&= T\Big(\Big\lceil{\frac{n}{k}}\Big\rceil\Big)+T\Big(\frac{3n}{4}+k\Big)+O(n)\\
+        &\leq c\Big(\frac{n}{k}+1\Big)+c\Big(\frac{3n}{4}+k\Big)+O(n)\\
+        &=\frac{cn}{k}+c+\frac{3cn}{4}+ck+O(n)\\
+        &=cn\Big(\frac{1}{k}+\frac{3}{4}\Big)+c+ck+O(n)\\
+        \Big(\frac{1}{k}+\frac{3}{4}\Big)<1 & \Rightarrow k>4
+    \end{align*}
+\section*{9.X Finding a closest pair of points}
 \end{document}
