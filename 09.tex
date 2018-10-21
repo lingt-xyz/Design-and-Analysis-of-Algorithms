@@ -69,11 +69,11 @@
 \\
 \textbf{Algorithm} \textcolor{blue}{SELECT}
 \begin{enumerate}
-    \item Divide $n$ elements into $\lfloor n/5 \rfloor$ group of $5$ elements, and one group that can have less than $5$ elements.
-    \item Find the median of each group.
-    \item Use SELECT recursively to find the median $x$ of the $\lceil n/5 \rceil$ values.
-    \item Partition the input around $x$.
-    \item Continue as in the SELECT algorithm recursively.
+    \item Divide $n$ elements into $\lfloor n/5 \rfloor$ group of $5$ elements, and one group that can have less than $5$ elements: $\Theta(n)$
+    \item Find the median of each group: $\Theta(n)$
+    \item Use SELECT recursively to find the median $x$ of the $\lceil n/5 \rceil$ values: $T(\lceil n/5 \rceil)$
+    \item Partition the input around $x$: $\Theta(n)$
+    \item Continue as in the SELECT algorithm recursively: $T(7n/10+6)$
 \end{enumerate}
 \includegraphics[scale=0.5]{"algorithm SELECT"}
 \begin{itemize}
