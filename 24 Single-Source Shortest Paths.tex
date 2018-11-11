@@ -1,0 +1,167 @@
+\documentclass[letter]{book}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%https://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+\newtheorem*{ex}{Example}
+
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
+\usepackage{enumitem}
+
+\usepackage{tkz-graph}
+\usepackage{float}
+
+\usepackage{hyperref}
+
+\usepackage{MnSymbol}
+
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
+%https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
+\usepackage{float}% http://ctan.org/pkg/float
+
+%https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
+\usepackage[graphicx]{realboxes}
+
+\begin{document}
+
+\setcounter{chapter}{23}
+
+\chapter{Single-Source Shortest Paths}
+A shortest-paths problem: we are given a weighted, directed graph $G=(V,E)$, with weight function $w:E\rightarrow\mathbb{R}$ mapping edges to real-valued weights. The weight $w(p)$ of path $p=\langle v_0,v_1,\ldots, v_k\rangle$ is the sum of the weights of its constituent edges: $w(p)=\sum_{i=1}^{k}{w(v_{i-1},v_i)}$.\\
+We define the shortest-path weight $\delta(u,v)$ from $u$ to $v$ by
+\begin{equation*}
+    \delta(u,v)=
+    \begin{cases}
+        \min\{w(p):u\overset{p}{\rightlsquigarrow}v\}  & \text{if there is a path from $u$ to $v$,} \\
+        \infty & \text{otherwise.}
+    \end{cases}
+\end{equation*}
+\begin{itemize}
+    \item Single-source shortest-paths problem
+    \item Single-destination shortest-paths problem
+    \item Single-pair shortest-path problem
+    \item All-pairs shortest-paths problem
+\end{itemize}
+\bigskip
+\begin{lemma} (Subpaths of shortest paths are shortest paths)
+\end{lemma}
+
+\subsection*{Negative-weight edges}
+
+\subsection*{Cycles}
+
+\subsection*{Representing shortest paths}
+Given a graph $G=(V,E)$, we maintain for each vertex $v\in V$ a predecessor $v.\pi$ that is either another vertex or NIL.
+
+\subsection*{Relaxation}
+    For each vertex $v\in V$, we maintain an attribute $v.d$, which is an upper bound on the weight of a shortest path from source $s$ to $v$.
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{INITIALIZE-SINGLE-SOURCE($G,s$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \For{each vertex $v\in G.V$}
+                \State $v.d=\infty$
+                \State $v.\pi=\text{NIL}$
+            \EndFor
+            \State $s.d=0$
+        \end{algorithmic}
+    \end{algorithm}
+    After initialization,, we have $v.\pi=$NIL for all $v\in V, s.d=0$, and $v.d=\infty$ for $v\in V-\{s\}$.
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{RELAX($u,v,w$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \If{$v.d>u.d+w(u,v)$}
+                \State $v.d=u.d+w(u,v)$
+                \State $v.\pi=u$
+            \EndIf
+        \end{algorithmic}
+    \end{algorithm}
+    
+    
+\section{The Bellman-Ford algorithm}
+    Complexity: O($V\cdot E$)\\
+    Weights may be negative.\\
+    Indicate whether or not there is a negative-weight cycle that is reachable from the source.
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{BELLMAN-FORD($G,w,s$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \State INITIALIZE-SINGLE-SOURCE($G,s$)
+            \For{$i=1$ \textbf{to} $|G.V|-1$}
+                \For{each edge $(u,v)\in G.E$}
+                    \State RELAX($u,v,w$)
+                \EndFor
+            \EndFor
+            \For{each edge $(u,v)\in G.E$}
+                \If{$v.d>u.d+w(u.v)$}
+                    \State \textbf{return} FALSE
+                \EndIf
+            \EndFor
+            \State \textbf{return} TRUE
+        \end{algorithmic}
+    \end{algorithm}
+    \begin{lemma}
+        
+    \end{lemma}
+    \bigskip
+    \begin{corollary}
+    \end{corollary}
+    \bigskip
+    \begin{theorem}(Correctness of the Bellman-Ford algorithm)
+    \end{theorem}
+    
+\section{Single-source shortest paths in directed acyclic graphs}
+    \begin{theorem}
+    \end{theorem}
+    
+\section{Dijkstra's algorithm}
+    All edge weights are nonnegative.
+    \begin{algorithm}[H]% Use "stay right HERE" already!
+        \caption{DIJKSTRA($G,w,s$)}
+        \begin{algorithmic}[1] % The number tells where the line numbering should start
+            \State INITIALIZE-SINGLE-SOURCE($G,s$)
+            \State $S=\emptyset$
+            \State $Q=G.V$
+            \While {$Q\neq\emptyset$}
+                \State $u=$EXTRACT-MIN($Q$)
+                \State $S=S\cup\{u\}$
+                \For{each vertex $v\in G.Adj[u]$}
+                    \State RELAX($u,v,w$)
+                \EndFor
+            \EndWhile
+        \end{algorithmic}
+    \end{algorithm}
+    \begin{theorem}(Correctness of Dijkstra’s algorithm)
+    \end{theorem}
+    \bigskip
+    \begin{corollary}
+    \end{corollary}
+    
+
+\section{Difference constraints and shortest paths}
+
+
+\section{Proofs of shortest-paths properties}
+\end{document}

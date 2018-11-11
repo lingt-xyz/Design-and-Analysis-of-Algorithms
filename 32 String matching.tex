@@ -1,0 +1,59 @@
+\documentclass[letter]{book}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%https://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+\newtheorem*{ex}{Example}
+
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
+\usepackage{enumitem}
+
+\usepackage{tkz-graph}
+\usepackage{float}
+
+\usepackage{hyperref}
+
+\usepackage{MnSymbol}
+
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
+%https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
+\usepackage{float}% http://ctan.org/pkg/float
+
+%https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
+\usepackage[graphicx]{realboxes}
+
+\begin{document}
+\setcounter{chapter}{31}
+
+\chapter{String matching}
+Find all occurrences of a given pattern of characters in a given text.
+Given a text array $T[1],\ldots,T[n]$ of characters and a pattern array $P[1],\ldots,P[m]$, find all integers $s$ that 
+\section{The naive string-matching algorithm}
+\section{The Rabin-Karp algorithm}
+\section{String matching with finite automata}
+\section{The Knuth-Morris-Pratt algorithm}
+\end{document}

@@ -30,7 +30,7 @@
 \date{2018-9}
 
 \begin{document}
-\maketitle
+%\maketitle
 A  \textit{recurrence} is an equation or inequality that describes a function in terms of its value on smaller inputs.\\
 \\
 Three methods for solving recurrences:
@@ -143,7 +143,7 @@ $T(n)=2T(\lfloor n/2\rfloor)+n$
 \section*{4.5 The master method for solving recurrences}
 \includegraphics[scale=0.4]{"Master-Theorem"}
 \begin{theorem*}
-Let
+Master Theorem. Let
 \begin{equation*}
     T(n) = aT(n/b) + f(n)
 \end{equation*}
@@ -172,7 +172,7 @@ where $a\geq 1,b\geq 1$.
     \item Master theorem case 3: $T(n) = 3T(n/4) + n\log{n}$
     \begin{gather*}
         a=3, b=4, f(n)=n\log{n},n^{\log_b{a}}=n^{\log_4{3}}=O(n^{0.793})\\
-        f(n)/{n^{\log_b{a}}}={n\log{n}}/{n^{0.793}}=\Omega(n^{\epsilon}),\epsilon>0\\
+        f(n)/{n^{\log_b{a}}}=\textcolor{red}{ {n\log{n}}/{n^{0.793}}=\Omega(n^{\epsilon}),\epsilon>0}\\
         f(n/b)=(n/b)(\log{n/b})=(n/4)(\log{n/4})\leq (n/4)(\log{n})\leq cf(n)\\
         \Rightarrow T(n)=\Theta(f(n))=\Theta(n\log{n})
     \end{gather*}

@@ -1,0 +1,137 @@
+\documentclass[letter]{book}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%https://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+\newtheorem*{ex}{Example}
+
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
+\usepackage{enumitem}
+
+\usepackage{tkz-graph}
+\usepackage{float}
+
+\usepackage{hyperref}
+
+\usepackage{MnSymbol}
+
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
+%https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
+\usepackage{float}% http://ctan.org/pkg/float
+
+%https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
+\usepackage[graphicx]{realboxes}
+
+\begin{document}
+\setcounter{chapter}{21}
+
+\chapter{Elementary Graph Algorithms}
+
+\section{Representations of graphs}
+\subsection{Adjacency list representation}
+\subsection{Adjacency matrix representation}
+
+\section{Breadth-first search}
+$O(V+E)$ in the size of the adjacency-list representation of $G$.
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{corollary}
+
+\end{corollary}
+\bigskip
+\begin{theorem}
+
+\end{theorem}
+\subsection{Breadth-first trees}
+\begin{lemma}
+
+\end{lemma}
+
+
+\section{Depth-first search}
+    \begin{theorem} (Parenthesis theorem)\\
+        In any depth-first search of a (directed or undirected) graph $G=(V,E)$, for any two vertices $u$ and $v$, exactly one of the following three conditions holds:
+        \begin{itemize}
+            \item the interval $[u.d, u.f]$ and $[v.d, v.f]$ are entirely \textcolor{red}{disjoint}, and neither $u$ or $v$ is a descendant of the other in the depth-first forest,
+            \item the interval $[u.d, u.f]$ is \textcolor{red}{contained} entirely within the interval $[v.d, v.f]$, and $u$ is a descendant of $v$ in a depth-first tree, or
+            \item the interval $[v.d, v.f]$ is \textcolor{red}{contained} entirely within the interval $[u.d, u.f]$, and $v$ is a descendant of $u$ in a depth-first tree.
+        \end{itemize}
+    \end{theorem}
+    \bigskip
+    \begin{corollary} %(Nesting of descendants' intervals)
+    
+    \end{corollary}
+    \bigskip
+    \begin{theorem}
+        
+    \end{theorem}
+    \bigskip
+    \begin{theorem}
+        
+    \end{theorem}
+
+\section{Topological sort}
+A topological sort of a dag $G=(V,E)$ is a linear ordering of all its vertices such that if $G$ contains an edge $(u,v)$, then $u$ appears before $v$ in the ordering.
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{theorem}
+    
+\end{theorem}
+
+\section{Strongly connected components}
+A strongly connected component of a directed graph $G=(V,E)$ is a maximal set of vertices $C\subseteq V$ such that for every pair of vertices $u$ and $v$ in $C$, we have both $u\rightlsquigarrow v$ and $v\rightlsquigarrow u$; that is, vertices $u$ and $v$ are reachable from each other.
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{lemma}
+
+\end{lemma}
+\bigskip
+\begin{corollary}
+
+\end{corollary}
+\bigskip
+\begin{theorem}
+    
+\end{theorem}
+\end{document}

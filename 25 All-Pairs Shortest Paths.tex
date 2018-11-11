@@ -1,0 +1,59 @@
+\documentclass[letter]{book}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{tikz} % Package for drawing
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%https://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+\newtheorem*{ex}{Example}
+
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
+\usepackage{enumitem}
+
+\usepackage{tkz-graph}
+\usepackage{float}
+
+\usepackage{hyperref}
+
+\usepackage{MnSymbol}
+
+%https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\usepackage{graphicx}
+\graphicspath{ {./resources/} }
+
+%https://tex.stackexchange.com/questions/165021/fixing-the-location-of-the-appearance-in-algorithmicx-environment
+\usepackage{float}% http://ctan.org/pkg/float
+
+%https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
+\usepackage[graphicx]{realboxes}
+
+\begin{document}
+
+\setcounter{chapter}{24}
+
+\chapter{All-Pairs Shortest Paths}
+
+\section{Shortest paths and matrix multiplication}
+
+
+\section{The Floyd-Warshall algorithm}
+\end{document}

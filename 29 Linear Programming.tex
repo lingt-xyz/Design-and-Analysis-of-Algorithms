@@ -1,13 +1,36 @@
-\documentclass[a4paper]{article}
+\documentclass[letter]{book}
 
 \usepackage{fullpage} % Package to use full page
 \usepackage{parskip} % Package to tweak paragraph skipping
 \usepackage{tikz} % Package for drawing
-\usepackage{amsmath}
-\usepackage{hyperref}
+
 \usepackage{amssymb}
-\usepackage{tikz-qtree}
+\usepackage{amsmath}
+\usepackage{amscd}
+
+%https://en.wikibooks.org/wiki/LaTeX/Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[chapter]
+\newtheorem*{ex}{Example}
+
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
 \usepackage{enumitem}
+
+\usepackage{tkz-graph}
+\usepackage{float}
+
+\usepackage{hyperref}
+
+\usepackage{MnSymbol}
 
 %https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
 \usepackage{algorithm}
@@ -22,19 +45,12 @@
 
 %https://tex.stackexchange.com/questions/25369/how-to-rotate-a-table
 \usepackage[graphicx]{realboxes}
-\title{22 Elementary Graph Algorithms}
-\author{Ling Tan}
-\date{2018-10}
 
 \begin{document}
-\maketitle
-\section*{22.1 Representations of graphs}
-\begin{enumerate}[label=(\alph*)]
-    \item adjacency list representation.
-    \item adjacency matrix representation.
-\end{enumerate}
-\section*{22.2 Breadth-first search}
-\section*{22.3 Depth-first search}
-\section*{22.4 Topological sort}
-\section*{22.5 Strongly connected components}
+\setcounter{chapter}{28}
+
+\chapter{Linear Programming}
+
+\section{Standard and slack forms}
+
 \end{document}

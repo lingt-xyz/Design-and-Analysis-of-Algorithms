@@ -28,7 +28,7 @@
 \date{2018-9}
 
 \begin{document}
-\maketitle
+%\maketitle
 \begin{description}
 \item[Order Statistics:] The $i$th \textbf{order statistics} of a set of $n$ elements is the $i$th smallest element.
 \item[Median:] A median is the “halfway point” of a set.
@@ -38,7 +38,7 @@
 \section*{9.1 Minimum and maximum $\Theta(n)$}
 \begin{enumerate}
     \item Minimum: with $n-1$ comparisons.
-    \item Maximum: same with minimum, with $n-1$ comparison.
+    \item Maximum: same with minimum, with $n-1$ comparisons.
     \item Simultaneous minimum and maximum: with $2(n-1)$ comparisons, but can be better.\\
     Process elements in pairs. Get minimum from the smaller group and maximum from the larger group.
 \end{enumerate}
@@ -69,11 +69,11 @@
 \\
 \textbf{Algorithm} \textcolor{blue}{SELECT}
 \begin{enumerate}
-    \item Divide $n$ elements into $\lfloor n/5 \rfloor$ group of $5$ elements, and one group that can have less than $5$ elements: $\Theta(n)$
-    \item Find the median of each group: $\Theta(n)$
-    \item Use SELECT recursively to find the median $x$ of the $\lceil n/5 \rceil$ values: $T(\lceil n/5 \rceil)$
-    \item Partition the input around $x$: $\Theta(n)$
-    \item Continue as in the SELECT algorithm recursively: $T(7n/10+6)$
+    \item $\Theta(n)$: Divide $n$ elements into $\lfloor n/5 \rfloor$ group of $5$ elements, and one group that can have less than $5$ elements.
+    \item $\Theta(n)$: Find the median of each group.
+    \item $T(\lceil n/5 \rceil)$: Use SELECT recursively to find the median $x$ of the $\lceil n/5 \rceil$ values.
+    \item $\Theta(n)$: Partition the input around $x$.
+    \item $T(7n/10+6)$: Continue as in the SELECT algorithm recursively.
 \end{enumerate}
 \includegraphics[scale=0.5]{"algorithm SELECT"}
 \begin{itemize}
