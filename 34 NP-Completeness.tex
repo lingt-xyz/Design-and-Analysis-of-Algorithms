@@ -50,5 +50,129 @@
 \setcounter{chapter}{33}
 
 \chapter{NP-Completeness}
+\section*{$2$-CNF satisfiability vs. $3$-CNF satisfiability}
+$k$-CNF: A boolean formula is in \textit{\textbf{$k$-conjunctive normal form}} if it is the AND of clauses of ORs of exactly $k$ variables or their negations.
 
+\section*{NP-completeness and the class P and NP}
+\begin{enumerate}
+    \item Optimization problems $\Rightarrow$ decision problems
+    \item Reductions
+        \begin{enumerate}
+            \item The transformation takes polynomial time.
+            \item The answer are the same. That is, the answer for $\alpha$ is ``yes" if and only if the answer for $\beta$ is also ``yes."
+        \end{enumerate}
+\end{enumerate}
+\section*{Reduction algorithm}
+\begin{enumerate}
+    \item Given an instance $\alpha$ of problem $A$, use a polynomial-time reduction algorithm to transform it to an instance $\beta$ of problem $B$.
+    \item Run the polynomial-time decision algorithm for $B$ on the instance $\beta$.
+    \item Use the answer for $\beta$ as the answer for $\alpha$.
+\end{enumerate}
+\section{Polynomial time}
+\section{Polynomial-time verification}
+\section{NP-completeness and reducibility}
+\subsection{Reducibility}
+A language $L_1$ is polynomial-time reducible to a language $L_2$, written 
+    \begin{equation*}
+        L_1\leq_p L_2       
+    \end{equation*}
+if there exists a polynomial-time computable function $f:\{0,1\}^*\rightarrow\{0,1\}^*$ such that for all $x\in \{0,1\}^*, x\in L_1$ if and only if $f(x)\in L_2$.
+
+\section{NP-completeness proofs}
+\begin{enumerate}
+    \item Prove $L\in NP$.
+    \item Select a known NP-complete language $L'$.
+    \item Describe an algorithm that computes a function $f$ mapping every instance $x\in\{0,1\}^*$ of $L'$ to an instance $f(x)$ of $L$.
+    \item Prove that the function $f$ satisfies $x\in L'$ if and only if $f(x)\in L$ for all $x\in \{0,1\}^*$.
+    \item Prove that the algorithm computing $f$ runs in a polynomial time.
+\end{enumerate}
+
+\section{NP-complete problems}
+\includegraphics[scale=0.6]{"Figure34-13"}
+\subsection{The clique problem}
+A \textit{clique} in an undirected graph $G=(V,E)$ is a subset $V'\subseteq V$ of vertices, each pair of which is connected by an edge in $E$; that is, a clique is a complete subgraph of $G$. The \textit{clique problem} is the optimization problem of finding a clique of maximum size in a graph.\\
+CLIQUE$=\{\langle G, K\rangle:G$ is a graph containing a clique of size $k\}$.
+\bigskip
+\setcounter{theorem}{10}
+\begin{theorem}
+    The clique problem is NP-complete.
+\end{theorem}
+\begin{proof} Two steps.\\
+    \begin{enumerate}
+        \item Show that CLIQUE $\in$ NP, for a given graph $G=(V,E)$: we can check whether a solution $V'$ is a clique in polynomial time by checking whether, for each pair of $u,v\in V'$, the edge $(u,v)\in E$.
+        \item Prove that $3$-CNF-SAT $\leq_p$ CLIQUE.\\
+        Let $\phi=C_1\land C_2\land\cdots\land C_k$ be a boolean formula in $3$-CNF with $k$ clauses. For $r=1,2,\ldots,k$, each clause $C_r$ has exactly three distinct literals $l_1^r,l_2^r$ and $l_3^r$. We shall construct a graph $G$ such that $\phi$ is satisfiable if and only if $G$ has a clique of size $k$.
+    \end{enumerate}
+\end{proof}
+\subsection{The vertex-cover problem}
+A vertex cover of an undirected graph $G=(V,E)$ is subset $V'\subseteq V$ such that if $(u,v)\in E$, then $u\in V'$ or $v\in V'$ (or both).
+\bigskip
+\begin{theorem}
+    The vertex-cover problem is NP-complete.
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+\subsection{The hamiltonian-cycle problem}
+VERTEX-COVER $\leq_p$ HAM-CYCLE
+\subsection{The traveling-salesman problem}
+HAM-CYCLE $\leq_p$ TSP
+\subsection{The subset-sum problem}
+SUBSET-SUM $=\{\langle S,t\rangle:$ there exists a subset $S'\subseteq S$ such that $t=\sum_{s\in S'}{s}\}$.
+\setcounter{theorem}{14}
+\begin{theorem}
+    The subset-sum problem is NP-complete.
+\end{theorem}
+\begin{proof} Two steps.\\
+    \begin{enumerate}
+        \item To show that SUBSET-SUM is in NP, for an instance $\langle S,t\rangle$ of the problem, we let the subset $S'$ be the certificate. A verification algorithm can check whether $t=\sum_{s\in S'}{s}$ in polynomial time.
+        \item Show that $3$-CNF-SAT $\leq_p$ SUBSET-SUM.\\
+            Given a $3$-CNF formula $\phi$ over variables $x_1,x_2,\ldots,x_n$ with clauses $C_1,C_2,\ldots, C_k$, each containing exactly three distinct literals, the reduction algorithm constructs an instance $\langle S,t\rangle$ of the subset-sum problem such that $\phi$ is satisfiable if and only if there exists a subset of $S$ whose sum is exactly $t$.
+            \begin{enumerate}
+                \item Without loss of generality, we make two simplifying assumptions about the formula $\phi$.
+                    \begin{enumerate}
+                        \item No clause contains both $x_i$ and $\Bar{x_i}$.
+                        \item For all $x_i$, it appears in at least one clause.
+                    \end{enumerate}
+                \item The reduction create two numbers in set $S$ for each variable $x_i$ and two numbers in $S$ for each clause $C_j$, each number contains $n+k$ digits. We construct set $S$ and target $t$ as follows.
+                    \begin{enumerate}
+                        \item The target $t$ has a $1$ in each digit labeled by a variable and a $4$ in each digit labeled by a clause.
+                        \item For each variable $x_i$, set $S$ contains two integer $v_i$ and $v_i'$. Each of $v_i$ and $v_i'$ has a $1$ in the digit labeled by $x_i$ and $0$s in the other variable digits.
+                        \item If literal $x_i$ appears in clause $C_j$, then the digit labeled by $C_j$ in $v_j$ contains a $1$. If literal $\lnot{x_i}$ appears in clause $C_j$, then the digit labeled by $C_j$ in $v_i'$ contains a $1$. All other digits labeled by clauses in $v_i$ and $v_i'$ are $0$.
+                        \item For each clause $C_j$, set $S$ contains two integers $s_j$ and $s_j'$. Each of $s_j$ and $s_j'$ has $0$s in all digits other than the one labeled by $C_j$. For $s_j$, there is a $1$ in the $C_j$ digit, and $s_j'$ has a $2$ in this digit.
+                    \end{enumerate}
+                    \begin{table}[h]
+                        \centering
+                        \begin{tabular}{ccccccccc}
+                              &   & $x_1$ & $x_2$ & $x_3$ & $C_1$ & $C_2$ & $C_3$ & $C_4$\\
+                            \hline\hline
+                            $v_1$ & = & 1 & 0 & 0 & 1 & 0 & 0 & 1\\
+                            $v_1'$ & = & 1 & 0 & 0 & 0 & 1 & 1 & 0\\
+                            \hline
+                            $v_2$ & = & 0 & 1 & 0 & 0 & 0 & 0 & 1\\
+                            $v_2'$ & = & 0 & 1 & 0 & 1 & 1 & 1 & 0\\
+                            \hline
+                            $v_3$ & = & 0 & 0 & 1 & 0 & 0 & 1 & 1\\
+                            $v_3'$ & = & 0 & 0 & 1 & 1 & 1 & 0 & 0\\
+                            \hline
+                            $s_1$ & = & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+                            $s_1'$ & = & 0 & 0 & 0 & 2 & 0 & 0 & 0\\
+                            \hline
+                            $s_2$ & = & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+                            $s_2'$ & = & 0 & 0 & 0 & 0 & 2 & 0 & 0\\
+                            \hline
+                            $s_3$ & = & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+                            $s_3'$ & = & 0 & 0 & 0 & 0 & 0 & 2 & 0\\
+                            \hline
+                            $s_4$ & = & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+                            $s_4'$ & = & 0 & 0 & 0 & 0 & 0 & 0 & 2\\
+                            \hline\hline
+                            $t$ & = & 1 & 1 & 1 & 4 & 4 & 4 & 4
+                        \end{tabular}
+                        \caption{$\phi=(x_1\lor\lnot{x_2}\lor\lnot{x_3})\land(\lnot{x_1}\lor\lnot{x_2}\lor\lnot{x_3})\land(\lnot{x_1}\lor\lnot{x_2}\lor{x_3})\land({x_1}\lor{x_2}\lor{x_3})$. A satisfying assignment of $\phi$ is $\langle x_1=0,x_2=1,x_3=1\rangle$}
+                        \label{tab:my_label}
+                    \end{table}
+            \end{enumerate}
+    \end{enumerate}
+\end{proof}
 \end{document}

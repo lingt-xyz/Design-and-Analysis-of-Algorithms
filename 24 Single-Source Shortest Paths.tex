@@ -30,7 +30,6 @@
 
 \usepackage{hyperref}
 
-\usepackage{MnSymbol}
 
 %https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
 \usepackage{algorithm}
@@ -56,7 +55,7 @@ We define the shortest-path weight $\delta(u,v)$ from $u$ to $v$ by
 \begin{equation*}
     \delta(u,v)=
     \begin{cases}
-        \min\{w(p):u\overset{p}{\rightlsquigarrow}v\}  & \text{if there is a path from $u$ to $v$,} \\
+        \min\{w(p):u\overset{p}{\leadsto}v\}  & \text{if there is a path from $u$ to $v$,} \\
         \infty & \text{otherwise.}
     \end{cases}
 \end{equation*}
